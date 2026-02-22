@@ -20,6 +20,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     };
 
   }
+
+  void dispose(){
+    super.dispose();
+    _recognizer.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RegistrationBloc,RegistrationState>(
