@@ -1,4 +1,4 @@
-import 'package:go_with_flutter/domain/model/responseModel/registrationResponse.dart';
+import 'package:go_with_flutter/domain/model/responseModel/registrationResponse/registrationResponse.dart';
 
 abstract class RegistrationState{}
 class RegistrationInitialState extends RegistrationState{}

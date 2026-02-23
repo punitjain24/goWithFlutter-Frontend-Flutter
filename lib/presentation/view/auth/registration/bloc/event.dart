@@ -1,4 +1,4 @@
-import 'package:go_with_flutter/domain/model/requestModel/registrationRequest.dart';
+import 'package:go_with_flutter/domain/model/requestModel/registrationRequest/registrationRequest.dart';
 
 abstract class RegistrationEvent{}
 

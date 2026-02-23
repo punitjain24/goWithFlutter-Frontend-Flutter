@@ -1,4 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:go_with_flutter/domain/services/routes.dart';
+import 'package:go_with_flutter/main.dart';
+import 'package:go_with_flutter/utlis/secure_storage.dart';
 
 class AppInterceptor extends Interceptor {
 
@@ -23,14 +26,42 @@ class AppInterceptor extends Interceptor {
   }
 
   @override
+  @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    print("ERROR[${err.response?.statusCode}] => MESSAGE: ${err.message}");
+    print("ERROR[${err.response?.statusCode}] => ${err.message}");
 
-    if (err.response?.statusCode == 401) {
-      // 🔥 Handle unauthorized globally
-      print("Unauthorized! Redirect to login.");
+    // ✅ Handle No Internet / Timeout
+    if (err.type == DioExceptionType.connectionError ||
+        err.type == DioExceptionType.connectionTimeout ||
+        err.type == DioExceptionType.receiveTimeout) {
+
+      return handler.reject(
+        DioException(
+          requestOptions: err.requestOptions,
+          error: "Please check your  internet connection",
+          type: DioExceptionType.unknown,
+        ),
+      );
     }
 
+    // ✅ Handle Unauthorized (401)
+    if (err.response?.statusCode == 401) {
+      navigatorKey.currentState?.pushNamedAndRemoveUntil(
+        Routes.login,
+        (route) => false,
+      );
+      SecureStorageService.clearData();
+      return handler.reject(
+        DioException(
+          requestOptions: err.requestOptions,
+          error: "Invalid email or password",
+          type: DioExceptionType.badResponse,
+          response: err.response,
+        ),
+      );
+    }
+
+    // ✅ Other errors
     return handler.next(err);
   }
 }

@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_with_flutter/domain/services/appRouter.dart';
 import 'package:go_with_flutter/domain/services/blocProviders.dart';
 
+//created this to track the current context of the widget anywhere in the tree.
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() {
   runApp(const MyApp());
 }
@@ -14,6 +17,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: AppProviders.appBlocs,
       child: MaterialApp.router(
+        key: navigatorKey,
         routerConfig: AppRouter.router,
         debugShowCheckedModeBanner: false,
         title: 'Go with Flutter',
@@ -23,7 +27,7 @@ class MyApp extends StatelessWidget {
             iconTheme: IconThemeData(
               color: Colors.white
             ),
-            titleTextStyle: TextStyle(color: Colors.white),
+            titleTextStyle: TextStyle(color: Colors.white,fontSize: 20),
           ),
           colorScheme: .fromSeed(seedColor: Colors.deepPurple),
         )

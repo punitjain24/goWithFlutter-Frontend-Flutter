@@ -12,4 +12,4 @@ export 'package:go_with_flutter/utlis/constant.dart';
 export 'package:go_with_flutter/utlis/customLoader.dart';
 export 'package:go_with_flutter/utlis/customTextFormFiled.dart';
 
-export '../../../../domain/model/requestModel/registrationRequest.dart';
+export '../../../../domain/model/requestModel/registrationRequest/registrationRequest.dart';

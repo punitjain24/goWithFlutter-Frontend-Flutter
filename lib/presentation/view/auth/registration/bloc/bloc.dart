@@ -14,21 +14,17 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   FutureOr<void> _submitEvent( SubmitEvent event, Emitter<RegistrationState> emit,) async {
     emit(RegistrationLoadingState());
     try{
-      final response=await client.registerUser(event.request);
+      final response=await client.register(event.request);
       if(response.success==true){
         emit(RegistrationSuccessState(response));
       }else{
         emit(RegistrationErrorState(response.message.toString()));
       }
     }on DioException catch(e){
-      if(e.response!=null){
-        emit(RegistrationErrorState(e.response!.data["message"].toString()));
-      }
-      else {
-        emit(
-          RegistrationErrorState("No internet connection"),
-        );
-      }
+      emit(RegistrationErrorState( e.error?.toString() ??
+          e.message ??
+          "Something went wrong",));
+
     }catch(e){
       emit(RegistrationErrorState(
         "Unexpected error occurred",
