@@ -11,6 +11,20 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey= GlobalKey<FormState>();
   final request =LoginRequest();
+
+
+  @override
+  void didUpdateWidget(LoginScreen oldWidget){
+    super.didUpdateWidget(oldWidget);
+  }
+  @override
+  void initState(){
+    super.initState();
+  }
+  @override
+  void didChangeDependencies(){
+    super.didChangeDependencies();
+  }
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -25,9 +39,10 @@ class _LoginScreenState extends State<LoginScreen> {
           }
           if(state is LoginSuccessState){
             AppLoader.hide();
-            context.push(Routes.dashboard);
             SecureStorageService.saveValue(SecureStorageService.tokenKey, state.response.data!.token!);
             Fluttertoast.showToast(msg: state.response.message??"");
+            context.push(Routes.dashboard);
+
           }
           if(state is LoginErrorState){
             AppLoader.hide();
